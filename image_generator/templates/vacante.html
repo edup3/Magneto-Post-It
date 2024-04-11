@@ -1,0 +1,37 @@
+{% extends 'base.html' %}
+{% load static %}
+{% block content %}
+<link rel="stylesheet" href="{% static 'vacante.css' %}">
+<div class="container d-flex h-100 w-100 flex-column justify-content-center">
+    <div class="container border h-75 w-50">
+        <form method="POST" class="w-100 h-100 d-flex flex-column justify-content-around">
+            <div class="row">
+                <label for="nombre-vacante" class="form-label">Nombre de Vacante</label>
+                <input type="text" class="form-control" name="nombre-vacante" id="nombre-vacante">
+            </div>
+            <div class="row">
+                <label for="descripcion-vacante" class="form-label">Descripcion de la Vacante</label>
+                <input type="text" class="form-control" name="descripcion-vacante" id="descripcion-vacante">
+            </div>
+            <div class="row">
+                <div class="col">
+                    <label for="vacantes-disp" class="form-label">Vacantes Disponibles</label>
+                    <input type="number" class="form-control" name="vacantes-disp" id="vacantes-disp" min="1">
+                </div>
+                <div class="col">
+                    <label for="salario" class="form-label">Salario</label>
+                    <input type="number" class="form-control" name="salario" id="salario" min="1">
+                </div>
+                <div class="col">
+                    <label for="ubicacion" class="form-label">Ubicacion</label>
+                    <input type="text" class="form-control" name="ubicacion" id="ubicacion">
+                </div>
+            </div>
+            <div class="row mb-3">
+                <label for="requisitos" class="form-label">Requisitos minimos</label>
+                <input type="text" class="form-control" name="requisitos" id="requisitos">
+            </div>
+        </form>
+    </div>
+</div>
+{% endblock content %}

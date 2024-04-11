@@ -1,0 +1,35 @@
+{% extends 'base.html' %}
+{% block content %}
+{% load static %}
+<canvas id="myCanvas" width="500" height="500"></canvas>
+<form action="" id="textoform">
+    <input type="text" id="texto" name="texto">
+    <input type="number" id="font_size" name="font_size" min="16">
+    <input type="submit" value="Agregar Texto">
+</form>
+<script>
+    
+    let texto = document.querySelector('#texto');
+    let textoform = document.querySelector('#textoform');
+    let canva = document.querySelector('#myCanvas');
+    let context = canva.getContext("2d");
+    let font_size = document.querySelector('#font_size');
+    let img = new Image();
+    img.onload = function(){
+        context.drawImage(img,0,0);
+        // context.font = font_size.value + 'px ' + 'Arial';
+        // context.fillText('Oferta de Trabajo',0,30);
+    }
+    img.src = "{% static 'logoprototipo1.png' %}";
+    textoform.addEventListener('submit',(e)=>{
+        e.preventDefault();
+        context.clearRect(0,0,canva.width,canva.height);
+        context.drawImage(img,0,0);
+        context.font = font_size.value + 'px ' + 'Arial';
+        context.fillText(texto.value,0,parseInt(font_size.value));
+
+    });
+    img.style.objectFit = 'contain';
+
+</script>
+{% endblock content %}
