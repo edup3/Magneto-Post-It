@@ -1,2 +1,4 @@
 *pyc
 /openAI.env
+/magnetopostit/local_settings.py
+/dbprueba.sqlite3
