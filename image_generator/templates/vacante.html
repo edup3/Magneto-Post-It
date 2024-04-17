@@ -2,34 +2,44 @@
 {% load static %}
 {% block content %}
 <link rel="stylesheet" href="{% static 'vacante.css' %}">
-<div class="container d-flex h-100 w-100 flex-column justify-content-center">
-    <div class="container border h-75 w-50">
-        <form method="POST" class="w-100 h-100 d-flex flex-column justify-content-around">
-            <div class="row">
-                <label for="nombre-vacante" class="form-label">Nombre de Vacante</label>
-                <input type="text" class="form-control" name="nombre-vacante" id="nombre-vacante">
+<div class="container">
+    <div class="container border h-75 w-50 d-flex flex-column justify-content-around">
+        <h1 style="text-align: center;">Formulario de Vacante para {{ Nombre }}</h1>
+        <form  action="{% url 'image_gen' %}" method="POST" class="w-100 h-100 d-flex flex-column justify-content-around">
+            {% csrf_token %}
+            <div class="form-floating">
+                <input type="text" class="form-control" name="nombre-vacante" id="nombre-vacante" placeholder="Nombre de Vacante">
+                <label for="nombre-vacante">Nombre de Vacante</label>
+            </div>
+            <div class="form-floating">
+                <input type="text" class="form-control" name="descripcion" id="descripcion" placeholder="Descripcion de la Vacante">
+                <label for="descripcion-vacante">Descripcion de la Vacante</label>
             </div>
             <div class="row">
-                <label for="descripcion-vacante" class="form-label">Descripcion de la Vacante</label>
-                <input type="text" class="form-control" name="descripcion-vacante" id="descripcion-vacante">
-            </div>
-            <div class="row">
-                <div class="col">
-                    <label for="vacantes-disp" class="form-label">Vacantes Disponibles</label>
-                    <input type="number" class="form-control" name="vacantes-disp" id="vacantes-disp" min="1">
+                <div class="form-floating col">
+                    <input type="number" class="form-control" name="vacantes-disp" id="vacantes-disp" placeholder="Vacantes Disponibles" min="1">
+                    <label for="vacantes-disp">Vacantes Disponibles</label>
                 </div>
-                <div class="col">
-                    <label for="salario" class="form-label">Salario</label>
-                    <input type="number" class="form-control" name="salario" id="salario" min="1">
+                <div class="form-floating col">
+                    <input type="number" class="form-control" name="salario" placeholder="Salario" id="salario" min="1">
+                    <label for="salario">Salario</label>
                 </div>
-                <div class="col">
-                    <label for="ubicacion" class="form-label">Ubicacion</label>
-                    <input type="text" class="form-control" name="ubicacion" id="ubicacion">
+                <div class="form-floating col"> 
+                    <input type="text" class="form-control" name="ubicacion" id="ubicacion" placeholder="Ubicacion">
+                    <label for="ubicacion">Ubicacion</label>
                 </div>
             </div>
-            <div class="row mb-3">
-                <label for="requisitos" class="form-label">Requisitos minimos</label>
-                <input type="text" class="form-control" name="requisitos" id="requisitos">
+            <div class="form-floating">
+                <input type="text" class="form-control" name="requisitos" id="requisitos" placeholder="Requisitos minimos">
+                <label for="requisitos">Requisitos minimos</label>
+            </div>
+            <div class="row justify-content-evenly">
+                <div class="col-4">
+                    <input type="submit" name="Guardar" class="form_submit" value="Guardar">
+                </div>
+                <div class="col-4">
+                    <input type="submit" name="Enviar" class="form_submit" value="Enviar">
+                </div>
             </div>
         </form>
     </div>

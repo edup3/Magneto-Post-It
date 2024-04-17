@@ -2,9 +2,14 @@
 {% block content %}
 {% load static %}
 <canvas id="myCanvas" width="500" height="500"></canvas>
+<h1>{{ desc }}</h1>
 <form action="" id="textoform">
+    {% if desc %}
+    <input type="text" id="texto" name="texto" value="{{ desc }}">
+    {% else %}
     <input type="text" id="texto" name="texto">
-    <input type="number" id="font_size" name="font_size" min="16">
+    {% endif %}
+    <input type="number" id="font_size" name="font_size" min="16" value="32">
     <input type="submit" value="Agregar Texto">
 </form>
 <script>
@@ -20,7 +25,7 @@
         // context.font = font_size.value + 'px ' + 'Arial';
         // context.fillText('Oferta de Trabajo',0,30);
     }
-    img.src = "{% static 'logoprototipo1.png' %}";
+    img.src = "{{ imagen }}";
     textoform.addEventListener('submit',(e)=>{
         e.preventDefault();
         context.clearRect(0,0,canva.width,canva.height);

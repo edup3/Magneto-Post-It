@@ -1,0 +1,16 @@
+{% extends 'base.html' %}
+{% block content %}
+{% load static %}
+<title>Signup</title>
+<link rel="stylesheet" href="">
+<div class="nonavbar">
+    <form method="POST" autocomplete="off" class="contenedor">
+        {% csrf_token %}
+        <h2 class="texto">Sign Up</h2>
+        {{registerform.as_p}}
+        <input type="submit" value="Signup" />
+        <div class="cuenta">Already have an account? <a class="signuplogin" href="/login">Login</a></div>
+    </form>
+</div>
+
+{% endblock content %}

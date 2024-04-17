@@ -1,0 +1,12 @@
+.form_submit{
+    background-color: aqua;
+    border: 0;
+    width: 100%;
+    padding: 1rem;
+}
+.form-control{
+    background-color: rgb(193, 190, 190);
+}
+.border{
+    border: 1px solid black;
+}
