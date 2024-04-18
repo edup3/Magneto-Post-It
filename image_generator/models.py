@@ -13,7 +13,7 @@ class Vacante(models.Model):
     salario = models.IntegerField()
     ubicacion = models.TextField()
     requisitos = models.TextField()
-    imagen = models.ImageField(null=True)
+    imagen = models.ImageField(null=True,upload_to='images/')
     empleador = models.ForeignKey(Empleador, on_delete=models.CASCADE)
 
 

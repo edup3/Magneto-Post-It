@@ -3,8 +3,9 @@ from . import views
 
 urlpatterns =[
     path('',views.home,name='home'),
-    path('image/',views.image_gen, name='image_gen'),
+    path('image/<int:vacante_id>',views.image_gen, name='image_gen'),
     path('login/', views.login_, name="login"),
     path('signup/',views.signup, name="signup"),
-    path('logout/', views.logout_, name="logout")
+    path('logout/', views.logout_, name="logout"),
+    path('procesando/',views.espera,name='espera')
 ]

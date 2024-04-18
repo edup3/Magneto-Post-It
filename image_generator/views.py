@@ -9,57 +9,58 @@ from PIL import Image
 from io import BytesIO
 import numpy as np
 from . forms import CreateUserForm, LoginForm
-from django.contrib.auth import authenticate, login, logout,get_user_model
+from django.contrib.auth import authenticate, login, logout
 from django.contrib.auth.decorators import login_required
 from .models import Vacante
+from magnetopostit.settings import MEDIA_ROOT
 
-# _ = load_dotenv('openAI.env')
-# client = OpenAI(
-#     # This is the default and can be omitted
-#     api_key=os.environ.get('openAI_api_key'),
-# )
+_ = load_dotenv('openAI.env')
+client = OpenAI(
+    # This is the default and can be omitted
+    api_key=os.environ.get('openAI_api_key'),
+)
 
-# def fetch_image(url):
-#     response = requests.get(url)
-#     response.raise_for_status()
+def fetch_image(url):
+    response = requests.get(url)
+    response.raise_for_status()
 
-#     # Convert the response content into a PIL Image
-#     image = Image.open(BytesIO(response.content))
-#     return(image)
-
+    # Convert the response content into a PIL Image
+    image = Image.open(BytesIO(response.content))
+    return(image)
+    
 # Create your views here.
+def espera(request:HttpRequest):
+    if request.method == 'POST':
+        nom_vacante = request.POST.get('nombre-vacante')
+        desc = request.POST.get('descripcion')
+        disp = request.POST.get('vacantes-disp')
+        salario = request.POST.get('salario')
+        ubicacion = request.POST.get('ubicacion')
+        requisitos = request.POST.get('requisitos')
+        vacante = Vacante.objects.create(nombre_vacante = nom_vacante, descripcion = desc, disponibles = disp, salario = salario, ubicacion = ubicacion,requisitos = requisitos, empleador = request.user)
+        vacante.save()
+        generar_imagen(vacante)
+    return redirect('image_gen', vacante_id = vacante.id)
 @login_required(login_url='/login')
 def home(request:HttpRequest):
     return render(request,'vacante.html')   
-def generar_imagen(request):
-    if request.method == 'POST':
-        nom_vacante = request.POST.get('nombre-vacante')
-        desc = request.POST.get('descripcion')
-        disp = request.POST.get('vacantes-disp')
-        salario = request.POST.get('salario')
-        ubicacion = request.POST.get('ubicacion')
-        requisitos = request.POST.get('requisitos')
-        # response = client.images.generate(
-        #     model="dall-e-3",
-        #     prompt=f"Imagen que respresente el trabajo de {nom_vacante}",
-        #     size="1024x1024",
-        #     quality="standard",
-        #     n=1,
-        #     )
-        # image_url = response.data[0].url
-        # print(image_url)
-@login_required(login_url='/login')
-def image_gen(request:HttpRequest):
-    if request.method == 'POST':
-        nom_vacante = request.POST.get('nombre-vacante')
-        desc = request.POST.get('descripcion')
-        disp = request.POST.get('vacantes-disp')
-        salario = request.POST.get('salario')
-        ubicacion = request.POST.get('ubicacion')
-        requisitos = request.POST.get('requisitos')
-        vacante = Vacante.objects.create(nombre_vacante = nom_vacante, descripcion = desc, disponibles = disp, salario = salario, ubicacion = ubicacion, empleador = request.user)
+def generar_imagen(vacante:Vacante):
+        response = client.images.generate(
+            model="dall-e-3",
+            prompt=f"Imagen que respresente el trabajo de {vacante.nombre_vacante}",
+            size="1024x1024",
+            quality="standard",
+            n=1,
+            )
+        image_url = response.data[0].url
+        image = fetch_image(image_url)
+        image.save(f'{MEDIA_ROOT}/images/{vacante.nombre_vacante}_id_{vacante.id}.jpg')
+        vacante.imagen = f'images/{vacante.nombre_vacante}_id_{vacante.id}.jpg'
         vacante.save()
-    return render(request,'image_gen.html',{'nombre':vacante.nombre_vacante,'desc':vacante.descripcion,'disp':vacante.descripcion,'salario':vacante.salario,'ubicacion':vacante.ubicacion,'requisitos':vacante.requisitos,'imagen':vacante.imagen})
+@login_required(login_url='/login')
+def image_gen(request:HttpRequest,vacante_id:int):
+    vacante = Vacante.objects.get(id = vacante_id)
+    return render(request,'image_gen.html',{'vacante':vacante})
 def login_(request):
     form = LoginForm()
     if request.method == "POST":

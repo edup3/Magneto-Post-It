@@ -5,7 +5,7 @@
 <div class="container">
     <div class="container border h-75 w-50 d-flex flex-column justify-content-around">
         <h1 style="text-align: center;">Formulario de Vacante para {{ Nombre }}</h1>
-        <form  action="{% url 'image_gen' %}" method="POST" class="w-100 h-100 d-flex flex-column justify-content-around">
+        <form  action="{% url 'espera' %}" method="POST" class="w-100 h-100 d-flex flex-column justify-content-around">
             {% csrf_token %}
             <div class="form-floating">
                 <input type="text" class="form-control" name="nombre-vacante" id="nombre-vacante" placeholder="Nombre de Vacante">
