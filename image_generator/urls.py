@@ -7,5 +7,6 @@ urlpatterns =[
     path('login/', views.login_, name="login"),
     path('signup/',views.signup, name="signup"),
     path('logout/', views.logout_, name="logout"),
-    path('procesando/',views.espera,name='espera')
+    path('procesando/',views.espera,name='espera'),
+    path('customize-data/<int:vac>',views.select_content,name='select-content')
 ]

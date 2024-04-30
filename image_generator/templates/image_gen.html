@@ -1,8 +1,151 @@
 {% extends 'base.html' %}
 {% block content %}
 {% load static %}
-<canvas id="myCanvas" width="500" height="500"></canvas>
-<h1>{{ desc }}</h1>
+<script type="text/javascript" src="http://code.jquery.com/jquery.min.js"></script>
+
+<script>
+    $(function(){
+        
+        var canvas=document.getElementById("myCanvas");
+        var ctx=canvas.getContext("2d");
+        
+        // variables used to get mouse position on the canvas
+        var $canvas=$("#myCanvas");
+        var canvasOffset=$canvas.offset();
+        var offsetX=canvasOffset.left;
+        var offsetY=canvasOffset.top;
+        var scrollX=$canvas.scrollLeft();
+        var scrollY=$canvas.scrollTop();
+        
+        // variables to save last mouse position
+        // used to see how far the user dragged the mouse
+        // and then move the text by that distance
+        var startX;
+        var startY;
+        
+        // some text objects
+        var texts=[];
+        var img = new Image();
+        img.src = '{{ vacante.imagen.url }}';
+        var font_size = document.querySelector('#font_size');
+        // some test texts
+        
+        texts.push({text:"{{ vacante.nombre_vacante }}",x:20,y:20});
+        texts.push({text:"{{ vacante.descripcion }}",x:20,y:70});
+        
+        // calculate width of each text for hit-testing purposes
+        ctx.font= font_size.value +"px verdana";
+
+        for(var i=0;i<texts.length;i++){
+            var text=texts[i];
+            text.width=ctx.measureText(text.text).width;
+            text.height=font_size.value;
+        }
+        
+        // this var will hold the index of the selected text
+        var selectedText=-1;
+        
+        // START: draw all texts to the canvas
+        draw();
+        // clear the canvas draw all texts
+        function draw(){
+            ctx.clearRect(0,0,canvas.width,canvas.height);
+            ctx.drawImage(img,0,0);
+            for(var i=0;i<texts.length;i++){
+                var text=texts[i];
+                ctx.fillText(text.text,text.x,text.y);
+            }
+        }
+
+        // falta implementar para diferentes textos
+        $('#texto').change(function(e){
+            texts = []
+            var text = {text:$(this).val(),x:0,y:parseInt(font_size.value)}
+            text.width = ctx.measureText(text.text).width;
+            text.height = font_size.value;
+            console.log(text);
+            texts.push(text);
+            draw();
+        })
+        $('#font_size').change(function(e){
+            ctx.font= font_size.value +"px verdana";
+            for(i = 0; i<texts.length;i++){
+                var text = texts[i];
+                text.width=ctx.measureText(text.text).width;
+                text.height=font_size.value;
+            }
+            draw();
+        })
+        // test if x,y is inside the bounding box of texts[textIndex]
+        function textHittest(x,y,textIndex){
+            var text=texts[textIndex];
+            return(x>=text.x && 
+            x<=text.x+text.width &&
+            y>=text.y-text.height && 
+            y<=text.y);
+        }
+        
+        // handle mousedown events
+        // iterate through texts[] and see if the user
+        // mousedown'ed on one of them
+        // If yes, set the selectedText to the index of that text
+        function handleMouseDown(e){
+            e.preventDefault();
+            startX=parseInt(e.clientX-offsetX);
+            startY=parseInt(e.clientY-offsetY);
+            console.log(startX);
+            
+            // Put your mousedown stuff here
+            for(var i=0;i<texts.length;i++){
+                if(textHittest(startX,startY,i)){
+                    selectedText=i;
+                }
+            }
+        }
+        
+        // done dragging
+        function handleMouseUp(e){
+            e.preventDefault();
+            selectedText=-1;
+        }
+        
+        // also done dragging
+        function handleMouseOut(e){
+            e.preventDefault();
+            selectedText=-1;
+        }
+        
+        // handle mousemove events
+        // calc how far the mouse has been dragged since
+        // the last mousemove event and move the selected text
+        // by that distance
+        function handleMouseMove(e){
+            if(selectedText<0){return;}
+            e.preventDefault();
+            mouseX=parseInt(e.clientX-offsetX);
+            mouseY=parseInt(e.clientY-offsetY);
+            
+            // Put your mousemove stuff here
+            var dx=mouseX-startX;
+            var dy=mouseY-startY;
+            startX=mouseX;
+            startY=mouseY;
+            var text=texts[selectedText];
+            console.log(text);
+            text.x+=dx;
+            text.y+=dy;
+            draw();
+        }
+        
+        // listen for mouse events
+        $("#myCanvas").mousedown(function(e){handleMouseDown(e);});
+        $("#myCanvas").mousemove(function(e){handleMouseMove(e);});
+        $("#myCanvas").mouseup(function(e){handleMouseUp(e);});
+        $("#myCanvas").mouseout(function(e){handleMouseOut(e);});
+        
+    }); // end $(function(){});
+    </script>
+<canvas id="myCanvas" width="500" height="500" style="border: 1px solid pink;"></canvas>
 <form action="" id="textoform">
     {% if desc %}
     <input type="text" id="texto" name="texto" value="{{ vacante.descripcion }}">
@@ -12,29 +155,4 @@
     <input type="number" id="font_size" name="font_size" min="16" value="32">
     <input type="submit" value="Agregar Texto">
 </form>
-<script>
-    
-    let texto = document.querySelector('#texto');
-    let textoform = document.querySelector('#textoform');
-    let canva = document.querySelector('#myCanvas');
-    let context = canva.getContext("2d");
-    let font_size = document.querySelector('#font_size');
-    let img = new Image();
-    img.onload = function(){
-        context.drawImage(img,0,0);
-        // context.font = font_size.value + 'px ' + 'Arial';
-        // context.fillText('Oferta de Trabajo',0,30);
-    }
-    img.src = "{{ vacante.imagen.url }}";
-    textoform.addEventListener('submit',(e)=>{
-        e.preventDefault();
-        context.clearRect(0,0,canva.width,canva.height);
-        context.drawImage(img,0,0);
-        context.font = font_size.value + 'px ' + 'Arial';
-        context.fillText(texto.value,0,parseInt(font_size.value));
-
-    });
-    img.style.objectFit = 'contain';
-
-</script>
 {% endblock content %}
