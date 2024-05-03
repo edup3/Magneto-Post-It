@@ -30,8 +30,8 @@
         var font_size = document.querySelector('#font_size');
         // some test texts
         
-        texts.push({text:"{{ vacante.nombre_vacante }}",x:20,y:20});
-        texts.push({text:"{{ vacante.descripcion }}",x:20,y:70});
+        // texts.push({text:"{{ vacante.nombre_vacante }}",x:20,y:20});
+        // texts.push({text:"{{ vacante.descripcion }}",x:20,y:70});
         
         // calculate width of each text for hit-testing purposes
         ctx.font= font_size.value +"px verdana";
@@ -56,15 +56,33 @@
                 ctx.fillText(text.text,text.x,text.y);
             }
         }
+        $('.data').change(function(){
+            if($(this).is(':checked')){
+                var valor =  $(this).val();
+                var temp = '<input type="text" class="texto" id="'+$(this).attr('id')+'text" value="'+valor+ '">';
+                $('#textos').append(temp);
+                var text = {id:$(this).attr('id') + 'text', text:valor,x:0,y:parseInt(font_size.value)};
+                text.width = ctx.measureText(text.text).width;
+                text.height = font_size.value;
+                texts.push(text);
+                draw();
+            }
+            else{
+                var select = '#'+$(this).attr('id') +'text';
+                $(select).remove();
+            }
 
-        // falta implementar para diferentes textos
-        $('#texto').change(function(e){
-            texts = []
-            var text = {text:$(this).val(),x:0,y:parseInt(font_size.value)}
-            text.width = ctx.measureText(text.text).width;
-            text.height = font_size.value;
-            console.log(text);
-            texts.push(text);
+        });
+        $('#textos').on('input','.texto',function(e){
+            texts.forEach(function(text){
+                var idtemp = $(this).attr('id');
+                if(text.id == idtemp){
+                    text.text = $(this).val();
+                    text.width=ctx.measureText(text.text).width;
+                    text.height=font_size.value;
+                };
+            },$(this));
+            console.log(texts);
             draw();
         })
         $('#font_size').change(function(e){
@@ -93,7 +111,6 @@
             e.preventDefault();
             startX=parseInt(e.clientX-offsetX);
             startY=parseInt(e.clientY-offsetY);
-            console.log(startX);
             
             // Put your mousedown stuff here
             for(var i=0;i<texts.length;i++){
@@ -131,7 +148,6 @@
             startX=mouseX;
             startY=mouseY;
             var text=texts[selectedText];
-            console.log(text);
             text.x+=dx;
             text.y+=dy;
             draw();
@@ -147,12 +163,20 @@
     </script>
 <canvas id="myCanvas" width="500" height="500" style="border: 1px solid pink;"></canvas>
 <form action="" id="textoform">
-    {% if desc %}
-    <input type="text" id="texto" name="texto" value="{{ vacante.descripcion }}">
-    {% else %}
-    <input type="text" id="texto" name="texto">
-    {% endif %}
+    <input type="checkbox" class="data" name="nombre-vacante" id="nombre-vacante" value="{{ vacante.nombre_vacante }}">
+    <label for="nombre-vacante">Nombre de la vacante</label>
+    <input type="checkbox" class="data" name="descripcion" id="descripcion" value="{{ vacante.descripcion }}">
+    <label for="descripcion">Descripcion de la vacante</label>
+    <input type="checkbox" class="data" name="vacantes-disp" id="vacantes-disp" value="{{ vacante.disponibles }}">
+    <label for="vacantes-disp">Cantidad de empleos disponibles</label>
+    <input type="checkbox" class="data" name="salario" id="salario" value="{{ vacante.salario }}">
+    <label for="salario">Salario</label>
+    <input type="checkbox" class="data" name="ubicacion" id="ubicacion" value="{{ vacante.ubicacion }}">
+    <label for="ubicacion">Ubicación</label>
+    <input type="checkbox" class="data" name="requisitos" id="requisitos" value="{{ vacante.requisitos }}">
+    <label for="requisitos">Requisitos</label>
+    <div id="textos">
+    </div>
     <input type="number" id="font_size" name="font_size" min="16" value="32">
-    <input type="submit" value="Agregar Texto">
 </form>
 {% endblock content %}

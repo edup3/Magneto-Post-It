@@ -26,9 +26,9 @@ def fetch_image(url):
     # Convert the response content into a PIL Image
     image = Image.open(BytesIO(response.content))
     return(image)
-def select_content(request,vac):
-    vacante = Vacante.objects.get(id = vac)
-    
+# def select_content(request,vac):
+#     vacante = Vacante.objects.get(id = vac)
+#     return render(request,'seleccion_contenido.html',{'vacante':vacante})
 # Create your views here.
 def espera(request:HttpRequest):
     if request.method == 'POST':
@@ -41,7 +41,7 @@ def espera(request:HttpRequest):
         vacante = Vacante.objects.create(nombre_vacante = nom_vacante, descripcion = desc, disponibles = disp, salario = salario, ubicacion = ubicacion,requisitos = requisitos, empleador = request.user)
         vacante.save()
         generar_imagen(vacante)
-    return redirect('select-content', vacante_id = vacante.id)
+    return redirect('image_gen', vacante_id = vacante.id)
 @login_required(login_url='/login')
 def home(request:HttpRequest):
     return render(request,'vacante.html')   
