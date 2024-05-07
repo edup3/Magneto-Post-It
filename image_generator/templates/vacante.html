@@ -2,10 +2,27 @@
 {% load static %}
 {% block content %}
 <link rel="stylesheet" href="{% static 'vacante.css' %}">
+
+<style>
+    /* Definición de colores personalizados */
+    .btn-custom-secondary {
+        background-color: #6c757d; /* Gris oscuro */
+        border-color: #6c757d; /* Gris oscuro */
+        color: #fff; /* Texto blanco */
+    }
+
+    .btn-custom-secondary:hover,
+    .btn-custom-secondary:focus {
+        background-color: #007bff; /* Azul Bootstrap */
+        border-color: #007bff; /* Azul Bootstrap */
+    }
+</style>
+
+
 <div class="container">
-    <div class="container border h-75 w-50 d-flex flex-column justify-content-around">
-        <h1 style="text-align: center;">Formulario de Vacante para {{ Nombre }}</h1>
-        <form  action="{% url 'espera' %}" method="POST" class="w-100 h-100 d-flex flex-column justify-content-around">
+    <div class="container border border-primary rounded h-75 w-100 d-flex flex-column justify-content-around">
+        <h1 class="text-center">Formulario de Vacante para {{ Nombre }}</h1>
+        <form action="{% url 'espera' %}" method="POST" class="w-100 h-100 d-flex flex-column justify-content-around">
             {% csrf_token %}
             <div class="form-floating">
                 <input type="text" class="form-control" name="nombre-vacante" id="nombre-vacante" placeholder="Nombre de Vacante">
@@ -33,14 +50,15 @@
                 <input type="text" class="form-control" name="requisitos" id="requisitos" placeholder="Requisitos minimos">
                 <label for="requisitos">Requisitos minimos</label>
             </div>
-            <div class="row justify-content-evenly">
+            <div class="row justify-content-center">
                 <div class="col-4">
-                    <input type="submit" name="Guardar" class="form_submit" value="Guardar">
+                    <input type="submit" name="Guardar" class="form_submit btn btn-custom-secondary" value="Guardar">
                 </div>
                 <div class="col-4">
-                    <input type="submit" name="Enviar" class="form_submit" value="Enviar">
+                    <input type="submit" name="Enviar" class="form_submit btn btn-custom-secondary" value="Enviar">
                 </div>
             </div>
+            
         </form>
     </div>
 </div>

@@ -1,6 +1,9 @@
 {% extends 'base.html' %}
 {% block content %}
 {% load static %}
+
+<link rel="stylesheet" href="{% static 'image-canva.css' %}">
+
 <script type="text/javascript" src="http://code.jquery.com/jquery.min.js"></script>
 
 <script>
@@ -161,22 +164,51 @@
         
     }); // end $(function(){});
     </script>
-<canvas id="myCanvas" width="500" height="500" style="border: 1px solid pink;"></canvas>
-<form action="" id="textoform">
-    <input type="checkbox" class="data" name="nombre-vacante" id="nombre-vacante" value="{{ vacante.nombre_vacante }}">
-    <label for="nombre-vacante">Nombre de la vacante</label>
-    <input type="checkbox" class="data" name="descripcion" id="descripcion" value="{{ vacante.descripcion }}">
-    <label for="descripcion">Descripcion de la vacante</label>
-    <input type="checkbox" class="data" name="vacantes-disp" id="vacantes-disp" value="{{ vacante.disponibles }}">
-    <label for="vacantes-disp">Cantidad de empleos disponibles</label>
-    <input type="checkbox" class="data" name="salario" id="salario" value="{{ vacante.salario }}">
-    <label for="salario">Salario</label>
-    <input type="checkbox" class="data" name="ubicacion" id="ubicacion" value="{{ vacante.ubicacion }}">
-    <label for="ubicacion">Ubicación</label>
-    <input type="checkbox" class="data" name="requisitos" id="requisitos" value="{{ vacante.requisitos }}">
-    <label for="requisitos">Requisitos</label>
-    <div id="textos">
+
+
+<div class="content">
+    <div class="canva">
+        <canvas id="myCanvas" width="600px" height="600px" style="border: 1px solid pink;"></canvas>
     </div>
-    <input type="number" id="font_size" name="font_size" min="16" value="32">
-</form>
+    <div class="form">
+        <form action="" id="textoform">
+
+            <div class="separar">
+                <div class="checkbox-form">
+                    <div class="nombre-vacante">
+                        <input type="checkbox" class="data" name="nombre-vacante" id="nombre-vacante" value="{{ vacante.nombre_vacante }}">
+                        <label for="nombre-vacante">Nombre de la vacante</label>
+                    </div>
+                    <div class="descripcion">
+                        <input type="checkbox" class="data" name="descripcion" id="descripcion" value="{{ vacante.descripcion }}">
+                        <label for="descripcion">Descripcion de la vacante</label>
+                    </div>
+                    <div class="vacantes-disp">
+                        <input type="checkbox" class="data" name="vacantes-disp" id="vacantes-disp" value="{{ vacante.disponibles }}">
+                        <label for="vacantes-disp">Cantidad de empleos disponibles</label>
+                    </div>
+                    <div class="salario">
+                        <input type="checkbox" class="data" name="salario" id="salario" value="{{ vacante.salario }}">
+                        <label for="salario">Salario</label>
+                    </div>
+                    <div class="ubicacion">
+                        <input type="checkbox" class="data" name="ubicacion" id="ubicacion" value="{{ vacante.ubicacion }}">
+                        <label for="ubicacion">Ubicación</label>
+                    </div>
+                    <div class="requisitos">
+                        <input type="checkbox" class="data" name="requisitos" id="requisitos" value="{{ vacante.requisitos }}">
+                        <label for="requisitos">Requisitos</label>
+                    </div>
+                </div>
+            
+                <div class="text-form">
+                    <div id="textos">
+                    </div>
+                    <input type="number" id="font_size" name="font_size" min="16" value="32">
+                </div>
+            </div>
+        
+        </form>
+    </div>
+</div>
 {% endblock content %}

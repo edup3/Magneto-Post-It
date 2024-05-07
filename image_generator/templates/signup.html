@@ -1,8 +1,10 @@
 {% extends 'base.html' %}
 {% block content %}
 {% load static %}
+
+<link rel="stylesheet" href="{% static 'signup.css' %}">
+
 <title>Signup</title>
-<link rel="stylesheet" href="">
 <div class="nonavbar">
     <form method="POST" autocomplete="off" class="contenedor">
         {% csrf_token %}
