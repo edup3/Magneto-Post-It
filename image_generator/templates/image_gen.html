@@ -72,6 +72,13 @@
             }
             else{
                 var select = '#'+$(this).attr('id') +'text';
+                texts.forEach(function(text,index){
+                var idtemp = $(this).attr('id')+'text';
+                if(text.id == idtemp){
+                    texts.splice(index,1);
+                };
+            },$(this));
+                draw();
                 $(select).remove();
             }
 
@@ -85,7 +92,6 @@
                     text.height=font_size.value;
                 };
             },$(this));
-            console.log(texts);
             draw();
         })
         $('#font_size').change(function(e){
