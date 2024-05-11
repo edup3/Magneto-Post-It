@@ -3,7 +3,7 @@ from django.http import HttpResponse,JsonResponse,HttpRequest
 from . forms import CreateUserForm, LoginForm
 from django.contrib.auth import authenticate, login, logout
 from django.contrib.auth.decorators import login_required
-from .models import Vacante
+from .models import Vacante, Usuario
 from funciones import *
 
 # Create your views here.
