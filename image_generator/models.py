@@ -6,7 +6,7 @@ Empleador = get_user_model()
 # Create your models here.
 class Vacante(models.Model):
     def __str__(self) -> str:
-        return f'{self.empleador.get_username()}: {self.nombre_vacante}'
+        return f'{self.empleador.get_username()},id({self.id}) : {self.nombre_vacante}'
     nombre_vacante = models.CharField(max_length=255)
     descripcion = models.TextField()
     disponibles = models.IntegerField()

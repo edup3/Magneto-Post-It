@@ -28,10 +28,7 @@
         var img = new Image();
         img.src = '{{ vacante.imagen.url }}';
         var font_size = document.querySelector('#font_size');
-        // some test texts
-        
-        // texts.push({text:"{{ vacante.nombre_vacante }}",x:20,y:20});
-        // texts.push({text:"{{ vacante.descripcion }}",x:20,y:70});
+        var descargar = document.querySelector('#descargar');
         
         // calculate width of each text for hit-testing purposes
         ctx.font= font_size.value +"px verdana";
@@ -75,9 +72,10 @@
                     texts.splice(index,1);
                 };
             },$(this));
-                draw();
-                $(select).remove();
-            }
+            draw();
+            $(select).remove();
+        }
+        descargar.href = canvas.toDataURL();
 
         });
         $('#textos').on('input','.texto',function(e){
@@ -89,6 +87,7 @@
                     text.height=font_size.value;
                 };
             },$(this));
+            descargar.href = canvas.toDataURL();
             draw();
         })
         $('#font_size').change(function(e){
@@ -98,6 +97,7 @@
                 text.width=ctx.measureText(text.text).width;
                 text.height=font_size.value;
             }
+            descargar.href = canvas.toDataURL();
             draw();
         })
         // test if x,y is inside the bounding box of texts[textIndex]
@@ -130,12 +130,14 @@
         function handleMouseUp(e){
             e.preventDefault();
             selectedText=-1;
+            descargar.href = canvas.toDataURL();
         }
         
         // also done dragging
         function handleMouseOut(e){
             e.preventDefault();
             selectedText=-1;
+            descargar.href = canvas.toDataURL();
         }
         
         // handle mousemove events
@@ -158,7 +160,6 @@
             text.y+=dy;
             draw();
         }
-        
         // listen for mouse events
         $("#myCanvas").mousedown(function(e){handleMouseDown(e);});
         $("#myCanvas").mousemove(function(e){handleMouseMove(e);});
@@ -167,7 +168,7 @@
         
     }); // end $(function(){});
     </script>
-<canvas id="myCanvas" width="500" height="500" style="border: 1px solid pink;"></canvas>
+<canvas id="myCanvas" width="1024" height="1024" style="border: 1px solid pink;"></canvas>
 <form action="" id="textoform">
     <input type="checkbox" class="data" name="nombre-vacante" id="nombre-vacante" value="{{ vacante.nombre_vacante }}">
     <label for="nombre-vacante">Nombre de la vacante</label>
@@ -185,4 +186,5 @@
     </div>
     <input type="number" id="font_size" name="font_size" min="16" value="32">
 </form>
+<a href="" id="descargar" download="generated_image.jpg">Descargar</a>
 {% endblock content %}
