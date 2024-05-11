@@ -45,7 +45,9 @@ def signup(request):
     if request.method == "POST":
         form = CreateUserForm(request.POST)
         if form.is_valid():
-            form.save()
+            user = form.save()
+            usuario = Usuario(user=user, profile_picture=request.FILES['profile_picture'])
+            usuario.save()
             return redirect("/login")
         
     context = {'registerform' : form}

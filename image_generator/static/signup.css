@@ -1,0 +1,40 @@
+.html{
+    font-family: "Poppins", sans-serif;
+}
+
+.nonavbar{
+    border:10px solid #a39ae6;
+    border-radius: 20px;
+    margin: auto;
+    margin-top: 30px;
+    margin-bottom: 30px;
+    padding: 2rem;
+    width: 500px;
+    height: 700px;
+    display: flex;
+    justify-content: center;
+}
+
+.texto{
+    font-family: "Poppins", sans-serif;
+    font-weight: 20px;
+    font-style: normal;
+}
+
+.cuenta{
+    padding-top: 10px;
+}
+
+.signuplogin{
+    text-decoration: none;
+}
+
+form p input{
+    border-radius: 5px;
+    border: thin solid #a39ae6;
+}
+
+form p input{
+    border-radius: 5px;
+    border: thin solid #a39ae6;
+}

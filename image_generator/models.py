@@ -1,5 +1,9 @@
 from django.db import models
 from django.contrib.auth import get_user_model
+from django.contrib.auth.models import User
+from django.core.validators import FileExtensionValidator, MaxValueValidator
+import os
+
 
 Empleador = get_user_model() 
 
@@ -16,4 +20,12 @@ class Vacante(models.Model):
     imagen = models.ImageField(null=True,upload_to='images/')
     empleador = models.ForeignKey(Empleador, on_delete=models.CASCADE)
 
+class Usuario(models.Model):
+    def __str__(self) -> str:
+        return f'{self.user.get_username()}'
+
+    user = models.OneToOneField(User, on_delete=models.CASCADE)
+    profile_picture = models.ImageField(null= True, upload_to='pp/', validators = [
+        FileExtensionValidator(allowed_extensions=['jpg', 'jpeg', 'png', 'gif'])
+        ])
 
