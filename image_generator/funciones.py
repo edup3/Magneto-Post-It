@@ -5,7 +5,7 @@ import requests
 from PIL import Image
 from io import BytesIO
 import numpy as np
-from models import Vacante
+from image_generator.models import Vacante
 from magnetopostit.settings import MEDIA_ROOT
 
 _ = load_dotenv('openAI.env')
