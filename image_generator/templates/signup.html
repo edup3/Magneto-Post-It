@@ -6,7 +6,7 @@
 
 <title>Signup</title>
 <div class="nonavbar">
-    <form method="POST" autocomplete="off" class="contenedor">
+    <form method="POST" autocomplete="off" class="contenedor" enctype="multipart/form-data">
         {% csrf_token %}
         <h2 class="texto">Sign Up</h2>
         {{registerform.as_p}}

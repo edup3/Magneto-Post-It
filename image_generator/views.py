@@ -10,7 +10,7 @@ import numpy as np
 from . forms import CreateUserForm, LoginForm
 from django.contrib.auth import authenticate, login, logout
 from django.contrib.auth.decorators import login_required
-from .models import Vacante
+from .models import Vacante, Usuario
 from magnetopostit.settings import MEDIA_ROOT
 
 _ = load_dotenv('openAI.env')
@@ -81,7 +81,9 @@ def signup(request):
     if request.method == "POST":
         form = CreateUserForm(request.POST)
         if form.is_valid():
-            form.save()
+            user = form.save()
+            usuario = Usuario(user=user, profile_picture=request.FILES['profile_picture'])
+            usuario.save()
             return redirect("/login")
         
     context = {'registerform' : form}
