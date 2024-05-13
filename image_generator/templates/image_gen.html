@@ -7,7 +7,9 @@
 <script type="text/javascript" src="http://code.jquery.com/jquery.min.js"></script>
 
 <script>
-    $(function(){
+    var img = new Image();
+        img.src = '{{ vacante.imagen.url }}';
+    var onImageLoad = $(function(){
         
         var canvas=document.getElementById("myCanvas");
         var ctx=canvas.getContext("2d");
@@ -28,8 +30,6 @@
         
         // some text objects
         var texts=[];
-        var img = new Image();
-        img.src = '{{ vacante.imagen.url }}';
         canvas.width = img.naturalWidth;
         canvas.height = img.naturalHeight;
         var font_size = document.querySelector('#font_size');
@@ -173,6 +173,7 @@
         $("#myCanvas").mouseout(function(e){handleMouseOut(e);});
         
     }); // end $(function(){});
+    img.onload = onImageLoad
     </script>
 
 
