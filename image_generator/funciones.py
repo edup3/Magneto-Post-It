@@ -5,7 +5,7 @@ import requests
 from PIL import Image
 from io import BytesIO
 import numpy as np
-from image_generator.models import Vacante
+from image_generator.models import Vacante, Usuario
 from magnetopostit.settings import MEDIA_ROOT
 
 _ = load_dotenv('openAI.env')
@@ -24,9 +24,10 @@ def fetch_image(url):
     return(image)
 
 def generar_imagen(vacante:Vacante):
+        custom_user = Usuario.objects.get(user = vacante.empleador.id)
         response = client.images.generate(
             model="dall-e-3",
-            prompt=f"Imagen que respresente el trabajo de {vacante.nombre_vacante},   la imagen tiene que cumplir con la descripcion {vacante.descripcion}",
+            prompt=f"Imagen que respresente el trabajo de {vacante.nombre_vacante},   la imagen tiene que cumplir con la descripcion {vacante.descripcion}, y en lo posible usar los siguientes colores que estan en formato hexadecimal: {custom_user.colors}",
             size="1024x1024",
             quality="standard",
             n=1,

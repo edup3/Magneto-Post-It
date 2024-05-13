@@ -28,4 +28,4 @@ class Usuario(models.Model):
     profile_picture = models.ImageField(null= True, upload_to='pp/', validators = [
         FileExtensionValidator(allowed_extensions=['jpg', 'jpeg', 'png', 'gif'])
         ])
-
+    colors = models.CharField(max_length=100, null=True)

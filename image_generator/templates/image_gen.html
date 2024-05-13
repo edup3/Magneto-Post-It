@@ -30,6 +30,8 @@
         var texts=[];
         var img = new Image();
         img.src = '{{ vacante.imagen.url }}';
+        canvas.width = img.naturalWidth;
+        canvas.height = img.naturalHeight;
         var font_size = document.querySelector('#font_size');
         var descargar = document.querySelector('#descargar');
         
@@ -39,7 +41,7 @@
         for(var i=0;i<texts.length;i++){
             var text=texts[i];
             text.width=ctx.measureText(text.text).width;
-            text.height=font_size.value;
+            text.height=parseInt(font_size.value);
         }
         
         // this var will hold the index of the selected text
@@ -61,9 +63,9 @@
                 var valor =  $(this).val();
                 var temp = '<input type="text" class="texto" id="'+$(this).attr('id')+'text" value="'+valor+ '">';
                 $('#textos').append(temp);
-                var text = {id:$(this).attr('id') + 'text', text:valor,x:0,y:parseInt(font_size.value)};
+                var text = {id:$(this).attr('id') + 'text', text:valor,x:300,y:parseInt(font_size.value)};
                 text.width = ctx.measureText(text.text).width;
-                text.height = font_size.value;
+                text.height = parseInt(font_size.value);
                 texts.push(text);
                 draw();
             }
@@ -87,7 +89,7 @@
                 if(text.id == idtemp){
                     text.text = $(this).val();
                     text.width=ctx.measureText(text.text).width;
-                    text.height=font_size.value;
+                    text.height=parseInt(font_size.value);
                 };
             },$(this));
             descargar.href = canvas.toDataURL();
@@ -98,7 +100,7 @@
             for(i = 0; i<texts.length;i++){
                 var text = texts[i];
                 text.width=ctx.measureText(text.text).width;
-                text.height=font_size.value;
+                text.height=parseInt(font_size.value);
             }
             descargar.href = canvas.toDataURL();
             draw();
@@ -120,6 +122,7 @@
             e.preventDefault();
             startX=parseInt(e.clientX-offsetX);
             startY=parseInt(e.clientY-offsetY);
+            console.log(texts);
             
             // Put your mousedown stuff here
             for(var i=0;i<texts.length;i++){
@@ -176,7 +179,7 @@
 
 <div class="content">
     <div class="canva">
-        <canvas id="myCanvas" width="1024" height="1024" style="border: 1px solid pink;"></canvas>
+        <canvas id="myCanvas"></canvas>
     </div>
     <div class="form">
         <form action="" id="textoform">
@@ -213,11 +216,12 @@
                     <div id="textos">
                     </div>
                     <input type="number" id="font_size" name="font_size" min="16" value="32">
+                        <a href=""  class='boton' id="descargar" download="generated_image.jpg">Descargar</a>
+                        <a href="" class="boton">Generar otra imagen</a>
                 </div>
             </div>
         
         </form>
     </div>
 </div>
-<a href="" id="descargar" download="generated_image.jpg">Descargar</a>
 {% endblock content %}
