@@ -21,7 +21,7 @@ def fetch_image(url):
 
     # Convert the response content into a PIL Image
     image = Image.open(BytesIO(response.content))
-    return(image)
+    return image
 
 def generar_imagen(vacante:Vacante):
         custom_user = Usuario.objects.get(user = vacante.empleador.id)
@@ -34,6 +34,9 @@ def generar_imagen(vacante:Vacante):
             )
         image_url = response.data[0].url
         image = fetch_image(image_url)
-        image.save(f'{MEDIA_ROOT}/images/{vacante.nombre_vacante}_id_{vacante.id}.jpg')
-        vacante.imagen = f'images/{vacante.nombre_vacante}_id_{vacante.id}.jpg'
-        vacante.save()
+        return image
+        
+def guardar_imagen(vacante:Vacante, imagen:Image):
+    imagen.save(f'{MEDIA_ROOT}/images/{vacante.nombre_vacante}_id_{vacante.id}.jpg')
+    vacante.imagen = f'images/{vacante.nombre_vacante}_id_{vacante.id}.jpg'
+    vacante.save()

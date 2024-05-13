@@ -17,7 +17,9 @@ def espera(request:HttpRequest):
         requisitos = request.POST.get('requisitos')
         vacante = Vacante.objects.create(nombre_vacante = nom_vacante, descripcion = desc, disponibles = disp, salario = salario, ubicacion = ubicacion,requisitos = requisitos, empleador = request.user)
         vacante.save()
-        generar_imagen(vacante)
+        imagen = generar_imagen(vacante)
+        guardar_imagen(vacante,imagen)
+
     return redirect('image_gen', vacante_id = vacante.id)
 @login_required(login_url='/login')
 def home(request:HttpRequest):
@@ -56,3 +58,8 @@ def signup(request):
 def logout_(request):
     logout(request)
     return redirect("/")
+def cambiar_imagen(request:HttpRequest,vacante_id:int):
+    vacante = Vacante.objects.get(id=vacante_id)
+    nueva_imagen = generar_imagen(vacante)
+    guardar_imagen(vacante,nueva_imagen)
+    return redirect('image_gen', vacante_id = vacante.id)
