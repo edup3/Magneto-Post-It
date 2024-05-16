@@ -53,8 +53,19 @@
     justify-content: space-evenly;
 }
 .item{
+    display: flex;
     align-self: center;
     align-content: center;
+    width: 100%;
+    padding: 2em 0px    ;
+    background-color: #a39ae6;
+    color: aquamarine;
+    align-items: center;
+    justify-content: center;
+}
+.data{
+    background-color: aquamarine;
+    margin-right: 0.5rem ;
 }
 .boton{
     padding: 1rem;
