@@ -63,8 +63,9 @@
                 var valor =  $(this).val();
                 var tempid = $(this).attr('id')+'text';
                 var temp = '<input type="text" class="texto" id="'+tempid +'" value="'+valor+ '">';
+                console.log(temp);
+                console.log(tempid)
                 $('#textos').append(temp);
-                $('#textos').append(label);
                 var text = {id:tempid, text:valor,x:300,y:parseInt(font_size.value)};
                 text.width = ctx.measureText(text.text).width;
                 text.height = parseInt(font_size.value);
